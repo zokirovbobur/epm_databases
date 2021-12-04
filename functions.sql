@@ -25,6 +25,17 @@ as $$
 create trigger user_name_validation_trigger
     before insert on students for each row
     execute procedure user_name_validation();
-    
+
 --7
 --createdb -O postgres -T postgres postgres_clone
+
+--8
+create function avg_mark_by_student(student_id_arg int) returns numeric language plpgsql
+as $$
+    begin
+        return (select sum(er.mark)/ count(er.id) as avg_mark from students s inner join exam_results er on s.id = er.student_id where s.id = student_id_arg);
+    end;
+    $$;
+
+select avg_mark_by_student(1);
+
