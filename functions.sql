@@ -25,3 +25,6 @@ as $$
 create trigger user_name_validation_trigger
     before insert on students for each row
     execute procedure user_name_validation();
+    
+--7
+--createdb -O postgres -T postgres postgres_clone
