@@ -48,3 +48,19 @@ as $$
     $$;
 
 select avg_mark_by_subject(149);
+
+--10
+create function students_in_red_zone() returns table(student_name varchar(12)) language plpgsql
+as $$
+    begin
+        return query
+            select s.name from (
+                  select er.student_id, count(er.mark) no_of_red_mark
+                  from exam_results er
+                  where mark <= 3
+                  group by er.student_id
+              ) t inner join students s on t.student_id = s.id where t.no_of_red_mark > 1 order by t.no_of_red_mark desc;
+    end;
+    $$;
+
+select students_in_red_zone();
