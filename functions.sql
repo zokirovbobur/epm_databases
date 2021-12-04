@@ -39,3 +39,12 @@ as $$
 
 select avg_mark_by_student(1);
 
+--9
+create function avg_mark_by_subject(subject_id_arg int) returns numeric language plpgsql
+as $$
+    begin
+        return (select sum(er.mark)/ count(er.id) as avg_mark from subjects s inner join exam_results er on s.id = er.subject_id where s.id = subject_id_arg);
+    end;
+    $$;
+
+select avg_mark_by_subject(149);
